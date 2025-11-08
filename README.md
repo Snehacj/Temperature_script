@@ -1,1 +1,0 @@
-# Tempearature_script
