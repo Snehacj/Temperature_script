@@ -1,0 +1,4 @@
+# Ignore large data files
+data/qa/input/temperature.csv
+data/qa/input/*.csv
+data/qa/input/*.parquet
