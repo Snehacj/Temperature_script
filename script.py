@@ -3,18 +3,15 @@ import os
 import pandas as pd
 from loguru import logger
 
-# ---------------------------------------
-# 1️⃣ Parse command-line arguments
-# ---------------------------------------
+
 parser = argparse.ArgumentParser(description="Temperature Average Calculator")
 parser.add_argument("--config", required=True, help="Path to config file")
 parser.add_argument("--env", required=True, choices=["qa", "prod"], help="Environment (qa or prod)")
 parser.add_argument("--format", required=True, choices=["csv", "parquet"], help="File format (csv or parquet)")
 args = parser.parse_args()
 
-# ---------------------------------------
-# 2️⃣ Read config file
-# ---------------------------------------
+
+
 config_data = {}
 with open(args.config, "r") as file:
     for line in file:
@@ -22,7 +19,6 @@ with open(args.config, "r") as file:
             key, value = line.strip().split("=", 1)
             config_data[key.strip()] = value.strip()
 
-# Pick values based on env (qa/prod)
 env_prefix = args.env.lower()
 
 input_path = config_data.get(f"{env_prefix}_input_path")
@@ -33,17 +29,13 @@ output_file = config_data.get(f"{env_prefix}_output_file")
 input_file_path = os.path.join(input_path, input_file)
 output_file_path = os.path.join(output_path, output_file)
 
-# ---------------------------------------
-# 3️⃣ Logging setup
-# ---------------------------------------
+
 logger.add("app.log", rotation="1 MB")
 logger.info(f"Environment selected: {args.env.upper()}")
 logger.info(f"File format: {args.format}")
 logger.info(f"Input file: {input_file_path}")
 
-# ---------------------------------------
-# 4️⃣ Read the input data
-# ---------------------------------------
+
 try:
     if args.format == "csv":
         df = pd.read_csv(input_file_path)
